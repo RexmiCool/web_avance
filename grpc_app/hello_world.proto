@@ -1,22 +1,26 @@
 syntax = "proto3";
 
-service GreeterService {
-  rpc SayHello (SayHelloRequest) returns (SayHelloResponse);
-  rpc SayGoodBye (SayGoodByeRequest) returns (SayGoodByeResponse);
+service HotelService {
+  rpc GetRoom (RoomRequest) returns (RoomResponse);
+  rpc ReservRoom (ReservRequest) returns (ReservResponse);
 }
 
-message SayHelloRequest {
+message RoomResponse {
   string name = 1;
+  string location = 2;
+  int32 price = 3;
+  string standing = 4;
 }
 
-message SayHelloResponse {
-  string message = 1;
+message RoomRequest {}
+
+message ReservRequest {
+  string hotelname = 1;
+  string fullname = 2;
+  string startdate = 3;
+  string enddate = 4;
 }
 
-message SayGoodByeRequest {
-  string name = 1;
-}
-
-message SayGoodByeResponse {
+message ReservResponse {
   string message = 1;
 }

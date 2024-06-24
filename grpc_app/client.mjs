@@ -13,27 +13,29 @@ const packageDefinition = loadSync(PROTO_PATH, {
 const hello_proto = loadPackageDefinition(packageDefinition);
 
 function startClient() {
-    const service = new hello_proto.GreeterService(
-      "localhost:3000",
-      credentials.createInsecure()
-    )
-    service.SayHello({ name: "Lecteur" }, (error, result) => {
-        if (error) {
-          console.error("An error has occured", error)
-          return
-        }
-        const { message } = result
-        console.log(message)
-    })
-    service.SayGoodBye({ name: "Lecteur" }, (error, result) => {
-        if (error) {
-          console.error("An error has occured", error)
-          return
-        }
-        const { message } = result
-        console.log(message)
-    })
+  const service = new hello_proto.HotelService(
+    "localhost:3000",
+    credentials.createInsecure()
+  )
+
+  let roomName
+  service.GetRoom({}, (error, result) => {
+    if (error) {
+      console.error("An error has occured", error)
+      return
+    }
+    roomName = result.name
+    console.log(result)
+  })
+
+
+  service.ReservRoom({ hotelname: roomName, fullname: "Matthieu JEAN", startdate: "2024/06/29", enddate: "2024/07/03" }, (error, result) => {
+    if (error) {
+      console.error("An error has occured", error)
+      return
+    }
+    console.log(result)
+  })
 }
 
 startClient()
-  
