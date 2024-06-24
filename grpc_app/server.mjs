@@ -70,7 +70,8 @@ const ReservRoom = (call, callback) => {
     standing: "haut de gamme"
   }
   const daysNumber = nombreDeNuits(startdate, enddate)
-  const message = `Vous, ${fullname}, avez réservé une chambre à l'hotel ${room.name}, du ${startdate} au ${enddate} (${daysNumber} jours), au prix de ${room.price}€.\n`
+  const daysNumberPrice = daysNumber * room.price
+  const message = `Vous, ${fullname}, avez réservé une chambre à l'hotel ${room.name}, du ${startdate} au ${enddate} (${daysNumber} jours), au prix de ${daysNumberPrice}€.\n`
   callback(null, {message})
 }
 
