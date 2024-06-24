@@ -25,6 +25,14 @@ function startClient() {
         const { message } = result
         console.log(message)
     })
+    service.SayGoodBye({ name: "Lecteur" }, (error, result) => {
+        if (error) {
+          console.error("An error has occured", error)
+          return
+        }
+        const { message } = result
+        console.log(message)
+    })
 }
 
 startClient()

@@ -18,13 +18,18 @@ const packageDefinition = loadSync(PROTO_PATH, {
 const hello_proto = loadPackageDefinition(packageDefinition)
 
 const sayHello = (call, callback) => {
+  const { name } = call.request
+  callback(null, { message: `Bonjour ${name}` })
+}
+
+const sayGoodBye = (call, callback) => {
     const { name } = call.request
-    callback(null, { message: `Bonjour ${name}` })
+    callback(null, { message: `GoogBye ${name}` })
   }
 
 function startServer() {  
     const server = new Server()
-    server.addService(hello_proto.GreeterService.service, { sayHello })
+    server.addService(hello_proto.GreeterService.service, { sayHello, sayGoodBye })
     const PORT = 3000
     const host = `localhost:${PORT}`
     server.bindAsync(host, ServerCredentials.createInsecure(), (error) => {
@@ -32,7 +37,7 @@ function startServer() {
         console.log("An error has occurred in bindAsync", error)
         return
       }
-      server.start()
+      //server.start()
       console.log(`Server listening on: ${host}`)
     })
 }
