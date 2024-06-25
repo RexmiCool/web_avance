@@ -26,7 +26,7 @@ const packageDefinition = loadSync(PROTO_PATH, {
 });
 const proto = loadPackageDefinition(packageDefinition);
 
-const service = new proto.HotelService("localhost:3000", credentials.createInsecure())
+const service = new proto.HotelService("address_arpc:3000", credentials.createInsecure())
 
 const app = express()
 
@@ -50,8 +50,6 @@ passport.use(new GoogleStrategy({
     clientID: GOOGLE_CLIENT_ID,
     clientSecret: GOOGLE_CLIENT_SECRET,
     callbackURL: CALLBACK_URL,
-    scope: ['profile', 'email', 'https://www.googleapis.com/auth/userinfo.email'],
-    passReqToCallback: true
 }, async (req, accessToken, refreshToken, profile, done) => {
     req.session.accessToken = accessToken;
     const oauth2Client = new google.auth.OAuth2();

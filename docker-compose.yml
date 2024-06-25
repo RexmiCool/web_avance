@@ -27,3 +27,4 @@ services:
     container_name: server-grpc
     depends_on:
       - web
+    hostname: address_arpc

@@ -76,7 +76,7 @@ function startServer() {
   const server = new Server()
   server.addService(hello_proto.HotelService.service, { GetRoom: GetRoom, ReservRoom: ReservRoom })
   const PORT = 3000
-  const host = `localhost:${PORT}`
+  const host = `0.0.0.0:${PORT}`
   server.bindAsync(host, ServerCredentials.createInsecure(), (error) => {
     if (error) {
       console.log("An error has occurred in bindAsync", error)
