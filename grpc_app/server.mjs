@@ -39,7 +39,6 @@ const rooms = [
 ]
 
 const GetRoom = (call, callback) => {
-  // Sélectionner un index aléatoire
   const randomIndex = Math.floor(Math.random() * rooms.length);
   const room = rooms[randomIndex];
 
@@ -47,13 +46,11 @@ const GetRoom = (call, callback) => {
 }
 
 function nombreDeNuits(dateDebut, dateFin) {
-  // Convertir les chaînes de caractères en objets Date
   const debut = new Date(dateDebut);
   const fin = new Date(dateFin);
 
   // Calculer la différence en millisecondes
   const differenceEnMillis = fin - debut;
-
   // Convertir la différence en jours
   const differenceEnJours = differenceEnMillis / (1000 * 60 * 60 * 24);
 
@@ -72,7 +69,7 @@ const ReservRoom = (call, callback) => {
   const daysNumber = nombreDeNuits(startdate, enddate)
   const daysNumberPrice = daysNumber * room.price
   const message = `Vous, ${fullname}, avez réservé une chambre à l'hotel ${room.name}, du ${startdate} au ${enddate} (${daysNumber} jours), au prix de ${daysNumberPrice}€.\n`
-  callback(null, {message})
+  callback(null, { message })
 }
 
 function startServer() {
@@ -85,7 +82,6 @@ function startServer() {
       console.log("An error has occurred in bindAsync", error)
       return
     }
-    //server.start()
     console.log(`Server listening on: ${host}`)
   })
 }

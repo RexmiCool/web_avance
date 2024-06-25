@@ -1,0 +1,34 @@
+[
+    {
+        "id": 1,
+        "company": "Air France",
+        "fly_number": "AIR9230",
+        "seat": "2B",
+        "date": "2024/06/11",
+        "price": 123
+    },
+    {
+        "id": 2,
+        "company": "Luftansa",
+        "fly_number": "LFNZ1939",
+        "seat": "4F",
+        "date": "2024/07/02",
+        "price": 46
+    },
+    {
+        "id": 3,
+        "company": "Malaysian Airlines",
+        "fly_number": "MALA9320",
+        "seat": "172G",
+        "date": "2024/06/17",
+        "price": 623
+    },
+    {
+        "id": 4,
+        "company": "Air Caribean",
+        "fly_number": "ACAR1962",
+        "seat": "F1",
+        "date": "2024/08/27",
+        "price": 399
+    }
+]
