@@ -1,4 +1,5 @@
 import axios from 'axios';
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import session from 'express-session';
 import passport from 'passport';
@@ -31,7 +32,13 @@ const service = new proto.HotelService("address_arpc:3000", credentials.createIn
 const app = express()
 
 app.use(express.json());
-app.use(cors());
+const corsOptions = {
+    origin: 'http://localhost:8081',
+    credentials: true,
+};
+
+app.use(cookieParser());
+app.use(cors(corsOptions));
 app.use(session({
     secret: 'your_secret_key',
     resave: false,
@@ -71,23 +78,33 @@ app.get('/auth/google',
 app.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/' }),
     (req, res) => {
-        res.redirect('/profile');
+        const accessToken = req.user.accessToken;
+        res.cookie('accessToken', accessToken, { httpOnly: true, secure: true });
+        res.redirect(`http://localhost:8081`);
     }
 );
 
 app.get('/logout', (req, res) => {
-    req.logout();
-    res.redirect('/');
+    req.logout((err) => {
+        if (err) {
+            console.error('Error during logout:', err);
+            return res.status(500).json({ message: 'Error during logout' });
+        }
+        res.clearCookie('accessToken');
+        res.redirect(`http://localhost:8081`);
+    });
 });
 
 app.get('/profile', async (req, res) => {
-    if (req.isAuthenticated()) {
+    const accessToken = req.cookies.accessToken;
+    console.log(accessToken)
+    if (accessToken) {
         const response = await axios.get('https://people.googleapis.com/v1/people/me', {
             params: {
                 personFields: 'names,emailAddresses,photos,ageRanges,locales,phoneNumbers'
             },
             headers: {
-                Authorization: `Bearer ${req.user.accessToken}`
+                Authorization: `Bearer ${accessToken}`
             }
         });
 

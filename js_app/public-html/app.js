@@ -22,7 +22,6 @@ document.getElementById('reservationForm').addEventListener('submit', function (
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Vérification de l'état d'authentification lors du chargement de la page
     fetch('http://localhost:8080/profile', { credentials: 'include' })
         .then(response => {
             if (response.status === 401) {
@@ -31,14 +30,15 @@ document.addEventListener('DOMContentLoaded', () => {
             return response.json();
         })
         .then(user => {
-            // Affichage des informations de profil de l'utilisateur
             const userProfile = document.getElementById('userProfile');
             userProfile.innerHTML = `
                 <h2>Profil utilisateur</h2>
-                <p>Nom complet : ${user.displayName}</p>
-                <p>Email : ${user.email}</p>
-                <img src="${user.photoUrl}" alt="Photo de profil">
-                <a href="http://localhost:8080/logout">Se déconnecter</a>
+                <div>
+                    <p>Nom complet : ${user.displayName}</p>
+                    <p>Email : ${user.email}</p>
+                    <img src="${user.photoUrl}" alt="Photo de profil"><br/>
+                </div>
+                <button><a href="http://localhost:8080/logout">Se déconnecter</a></button>
             `;
         })
         .catch(error => {
