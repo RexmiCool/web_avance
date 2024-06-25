@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réservation Vols et Hôtels</title>
+</head>
+<body>
+    <h1>Réservez votre vol et hôtel</h1>
+    <button id="loginBtn">Se connecter avec Google</button>
+    <div id="userProfile"></div>
+    <form id="reservationForm">
+        <label for="flightId">ID du vol:</label>
+        <input type="number" id="flightId" name="flightId" required>
+        <button type="submit">Réserver</button>
+    </form>
+    <div id="result"></div>
+    <script src="app.js"></script>
+
+    <div class="container">
+        <div class="jumbotron text-center text-primary">
+            <h1><span class="fa fa-lock"></span> Social Authentication</h1>
+            <p>Login or Register with:</p>
+            <a href="http://localhost:8080/auth/google" class="btn btn-danger"><span class="fa fa-google"></span> SignIn with Google</a>
+        </div>
+    </div>
+</body>
+</html>
