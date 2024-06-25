@@ -1,0 +1,21 @@
+# Utiliser une image Node.js officielle
+FROM node:18
+
+# Définir le répertoire de travail
+WORKDIR /usr/src/app
+
+# Copier les fichiers package.json et package-lock.json
+COPY package*.json ./
+COPY hello_world.proto ./
+
+# Installer les dépendances
+RUN npm install
+
+# Copier le reste de l'application
+COPY . .
+
+# Exposer le port que votre application utilise
+EXPOSE 8080
+
+# Démarrer l'application avec le flag expérimental pour les modules JSON
+CMD ["node", "--experimental-json-modules", "index.mjs"]

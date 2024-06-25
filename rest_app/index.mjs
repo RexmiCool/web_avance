@@ -16,7 +16,7 @@ const GOOGLE_CLIENT_SECRET = authClient.web.client_secret;
 const CALLBACK_URL = 'http://localhost:8080/auth/google/callback';
 const PORT = 8080;
 
-const PROTO_PATH = "../grpc_app/hello_world.proto";
+const PROTO_PATH = "hello_world.proto";
 const packageDefinition = loadSync(PROTO_PATH, {
     keepCase: true,
     longs: String,

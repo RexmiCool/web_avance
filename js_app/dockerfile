@@ -1,0 +1,14 @@
+# Utiliser l'image officielle d'Apache
+FROM httpd:2.4
+
+# Copier le fichier de configuration personnalisé, si nécessaire
+# COPY ./my-httpd.conf /usr/local/apache2/conf/httpd.conf
+
+# Copier les fichiers de votre site web dans le répertoire par défaut de Apache
+COPY ./public-html/ /usr/local/apache2/htdocs/
+
+# Exposer le port 80
+EXPOSE 80
+
+# Lancer Apache en mode premier plan
+CMD ["httpd-foreground"]

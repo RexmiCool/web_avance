@@ -1,0 +1,20 @@
+# Utiliser une image Node.js officielle
+FROM node:18
+
+# Définir le répertoire de travail
+WORKDIR /usr/src/app
+
+# Copier les fichiers package.json et package-lock.json
+COPY package*.json ./
+
+# Installer les dépendances
+RUN npm install
+
+# Copier le reste de l'application
+COPY . .
+
+# Exposer le port que votre application utilise
+EXPOSE 3000
+
+# Démarrer l'application avec le flag expérimental pour les modules JSON
+CMD ["node", "server.mjs"]

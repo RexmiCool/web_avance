@@ -1,0 +1,29 @@
+version: '3'
+services:
+  web:
+    image: httpd:2.4
+    ports:
+      - "8081:80"
+    volumes:
+      - ./js_app/public-html:/usr/local/apache2/htdocs/
+    container_name: server-apache
+
+  node-app:
+    build: ./rest_app
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./rest_app:/usr/src/app
+    container_name: server-nodejs
+    depends_on:
+      - web
+
+  grpc-app:
+    build: ./grpc_app
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./grpc_app:/usr/src/app
+    container_name: server-grpc
+    depends_on:
+      - web
