@@ -1,4 +1,4 @@
-import { google } from 'googleapis';
+import axios from 'axios';
 import cors from 'cors';
 import session from 'express-session';
 import passport from 'passport';
@@ -41,36 +41,18 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static('js_app'));
 
-app.listen(PORT, () => { 
-    console.log("Serveur à l'écoute") 
+app.listen(PORT, () => {
+    console.log("Serveur à l'écoute")
 })
 
 // Passport configuration
 passport.use(new GoogleStrategy({
     clientID: GOOGLE_CLIENT_ID,
     clientSecret: GOOGLE_CLIENT_SECRET,
-    callbackURL: CALLBACK_URL,
-}, async (req, accessToken, refreshToken, profile, done) => {
-    req.session.accessToken = accessToken;
-    const oauth2Client = new google.auth.OAuth2();
-    oauth2Client.setCredentials({ access_token: accessToken });
-    const people = google.people({ version: 'v1', auth: oauth2Client });
-    try {
-        const me = await people.people.get({
-            resourceName: 'people/me',
-            personFields: 'names,emailAddresses,photos',
-        });
-        const userProfile = {
-            id: profile.id,
-            displayName: profile.displayName,
-            emails: profile.emails,
-            photos: profile.photos,
-            profile: me.data
-        };
-        done(null, userProfile);
-    } catch (error) {
-        done(error, null);
-    }
+    callbackURL: CALLBACK_URL
+}, async (accessToken, refreshToken, profile, done) => {
+    profile.accessToken = accessToken;
+    done(null, profile);
 }));
 
 passport.serializeUser((user, done) => {
@@ -89,7 +71,7 @@ app.get('/auth/google',
 app.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/' }),
     (req, res) => {
-        res.redirect('http://127.0.0.1:5500/js_app/index.html'); 
+        res.redirect('/profile');
     }
 );
 
@@ -98,9 +80,24 @@ app.get('/logout', (req, res) => {
     res.redirect('/');
 });
 
-app.get('/profile', (req, res) => {
+app.get('/profile', async (req, res) => {
     if (req.isAuthenticated()) {
-        res.json(req.user);
+        const response = await axios.get('https://people.googleapis.com/v1/people/me', {
+            params: {
+                personFields: 'names,emailAddresses,photos,ageRanges,locales,phoneNumbers'
+            },
+            headers: {
+                Authorization: `Bearer ${req.user.accessToken}`
+            }
+        });
+
+        const userProfile = {
+            displayName: response.data.names[0].displayName,
+            email: response.data.emailAddresses[0].value,
+            photoUrl: response.data.photos[0].url
+        };
+
+        res.json(userProfile);
     } else {
         res.status(401).json({ message: 'User not authenticated' });
     }
