@@ -17,6 +17,7 @@ services:
     container_name: server-nodejs
     depends_on:
       - web
+    hostname: rest_app
 
   grpc-app:
     build: ./grpc_app
@@ -53,6 +54,7 @@ services:
       - keycloakdb
     ports:
       - 8085:8080
+    hostname: keycloak_web
 
   keycloakdb:
     image: postgres:15

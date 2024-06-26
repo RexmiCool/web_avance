@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Réservation Vols et Hôtels</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/keycloak-js/16.1.1/keycloak.min.js"></script>
+    <script src="app.js"></script>
 </head>
+
 <body>
     <h1>Réservez votre vol et hôtel</h1>
-    <button id="loginBtn">Se connecter avec Google</button>
-    <div id="userProfile"></div><br/>
+    <button id="loginBtn">Se connecter</button>
+    <div id="userProfile"></div><br />
     <form id="reservationForm">
         <label for="flightId">ID du vol:</label>
         <input type="number" id="flightId" name="flightId" required>
         <button type="submit">Réserver</button>
     </form>
     <div id="result"></div>
-    
-    <script src="app.js"></script>
 </body>
+
 </html>
