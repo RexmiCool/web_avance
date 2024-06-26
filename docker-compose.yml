@@ -7,7 +7,7 @@ services:
     volumes:
       - ./js_app/public-html:/usr/local/apache2/htdocs/
     container_name: server-apache
-
+    
   node-app:
     build: ./rest_app
     ports:
@@ -53,6 +53,7 @@ services:
       - keycloakdb
     ports:
       - 8085:8080
+    hostname: keycloak
 
   keycloakdb:
     image: postgres:15
