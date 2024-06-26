@@ -138,7 +138,7 @@ app.get('/profile', async (req, res) => {
 
 //-------------------------------------------------------------------------- REST fly
 app.get('/fly', keycloak.protect('realm:user'), (req, res) => { res.status(200).json(flies) });
-app.get('/fly/:id', keycloak.protect('realm:user'), (req, res) => {
+app.get('/fly/:id', keycloak.protect(), (req, res) => {
     const flightId = parseInt(req.params.id);
     const flight = flies.find(fly => fly.id === flightId);
     let message = `Votre vol ${flight.fly_number} avec la compagnie ${flight.company} a été réservé pour le ${flight.date} sur le siege ${flight.seat} pour ${flight.price}€.\n`

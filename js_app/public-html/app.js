@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Configuration de Keycloak
     const keycloakConfig = {
-        url: 'http://localhost:8085/',
+        url: 'http://keycloak_web:8085/',
         realm: 'WebServices',
         clientId: '1234'
     };
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('reservationForm').addEventListener('submit', function (event) {
         event.preventDefault();
         const flightId = document.getElementById('flightId').value;
-
+        console.log(keycloak)
         fetch(`http://localhost:8080/fly/${flightId}`, {
             method: 'GET',
             headers: {
