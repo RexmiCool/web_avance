@@ -1,3 +1,4 @@
+import Keycloak from 'keycloak-connect';
 import axios from 'axios';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -39,11 +40,26 @@ const corsOptions = {
 
 app.use(cookieParser());
 app.use(cors(corsOptions));
+
+const memoryStore = new session.MemoryStore();
 app.use(session({
     secret: 'your_secret_key',
     resave: false,
     saveUninitialized: true,
+    store: memoryStore
 }));
+
+const keycloak = new Keycloak({
+    store: memoryStore
+});
+
+app.use(
+    keycloak.middleware({
+        logout: '/logout',
+        admin: '/'
+    })
+);
+
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static('js_app'));
@@ -121,8 +137,8 @@ app.get('/profile', async (req, res) => {
 });
 
 //-------------------------------------------------------------------------- REST fly
-app.get('/fly', (req, res) => { res.status(200).json(flies) });
-app.get('/fly/:id', (req, res) => {
+app.get('/fly', keycloak.protect('realm:user'), (req, res) => { res.status(200).json(flies) });
+app.get('/fly/:id', keycloak.protect('realm:user'), (req, res) => {
     const flightId = parseInt(req.params.id);
     const flight = flies.find(fly => fly.id === flightId);
     let message = `Votre vol ${flight.fly_number} avec la compagnie ${flight.company} a été réservé pour le ${flight.date} sur le siege ${flight.seat} pour ${flight.price}€.\n`
